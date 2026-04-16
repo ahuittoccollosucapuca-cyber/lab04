@@ -7,8 +7,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.FlowColumn
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.constraintlayout.compose.ConstraintLayout
 
@@ -18,42 +16,60 @@ fun ContainersScreen() {
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Containers") })
+            TopAppBar(
+                title = { Text("Containers Pro", style = MaterialTheme.typography.headlineSmall) },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            )
         }
     ) { padding ->
 
         LazyColumn(
             modifier = Modifier
                 .padding(padding)
+                .padding(16.dp)
                 .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
 
-            // 🔹 LazyColumn (base)
+            // 🔹 Título principal
             item {
-                Text("LazyColumn (base de la pantalla)")
+                Text("Lista de Contenedores 🔥", style = MaterialTheme.typography.titleLarge)
             }
 
-            // 🔹 LazyRow
+            // 🔹 LazyRow mejorada
             item {
-                Text("LazyRow")
-                LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text("LazyRow con Cards", style = MaterialTheme.typography.labelLarge)
+                Spacer(modifier = Modifier.height(8.dp))
+                LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     items(5) {
-                        Card {
-                            Text("Item $it", Modifier.padding(8.dp))
+                        Card(
+                            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                        ) {
+                            Text("Item $it", Modifier.padding(16.dp))
                         }
                     }
                 }
             }
 
-            // 🔹 Grid
+            // 🔹 Grid con estilo
             item {
-                Text("Grid")
-                Box(Modifier.height(120.dp)) {
-                    LazyVerticalGrid(columns = GridCells.Fixed(2)) {
+                Text("Grid de Layout", style = MaterialTheme.typography.labelLarge)
+                Box(Modifier.height(150.dp)) {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
                         items(6) {
-                            Card(Modifier.padding(4.dp)) {
-                                Text("Grid $it", Modifier.padding(8.dp))
+                            Card(
+                                colors = CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.secondaryContainer
+                                )
+                            ) {
+                                Text("Grid $it", Modifier.padding(16.dp))
                             }
                         }
                     }
@@ -62,57 +78,53 @@ fun ContainersScreen() {
 
             // 🔹 ConstraintLayout
             item {
-                Text("ConstraintLayout")
+                Text("ConstraintLayout", style = MaterialTheme.typography.labelLarge)
                 ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
                     val (a, b) = createRefs()
 
-                    Text("A", modifier = Modifier.constrainAs(a) {
+                    Text("Texto A", modifier = Modifier.constrainAs(a) {
                         top.linkTo(parent.top)
                     })
 
-                    Text("B", modifier = Modifier.constrainAs(b) {
-                        top.linkTo(a.bottom)
+                    Text("Texto B", modifier = Modifier.constrainAs(b) {
+                        top.linkTo(a.bottom, margin = 8.dp)
                     })
                 }
             }
 
             // 🔹 Surface
             item {
-                Text("Surface")
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
+                    shape = MaterialTheme.shapes.medium,
                     tonalElevation = 4.dp
                 ) {
-                    Text(
-                        "Contenido dentro de Surface",
-                        modifier = Modifier.padding(16.dp)
-                    )
+                    Column(Modifier.padding(16.dp)) {
+                        Text("Surface Component", style = MaterialTheme.typography.titleSmall)
+                        Text("Contenido con elevación y bordes redondeados.")
+                    }
                 }
             }
 
             // 🔹 Chip
             item {
-                Text("Chip")
                 AssistChip(
                     onClick = {},
-                    label = { Text("Chip ejemplo") }
+                    label = { Text("Chip interactivo") }
                 )
             }
 
-
-
-            // 🔹 BackdropScaffold (SIMULADO para evitar crash)
+            // 🔹 BackdropScaffold (Simulación segura)
             item {
-                Text("BackdropScaffold (simulación segura)")
-
                 Surface(
-                    tonalElevation = 4.dp,
+                    tonalElevation = 2.dp,
+                    shape = MaterialTheme.shapes.small,
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Column(Modifier.padding(16.dp)) {
-                        Text("Back Layer (simulado)")
+                        Text("Backdrop Simulado", style = MaterialTheme.typography.titleSmall)
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text("Front Layer (simulado)")
+                        Text("Esta es una representación visual limpia del componente.")
                     }
                 }
             }
