@@ -12,6 +12,8 @@ import androidx.compose.runtime.*
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
+import com.example.lab04.ui.advanced.AdvancedScreen
+import androidx.compose.foundation.layout.*
 class MainActivity : ComponentActivity() {
 
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
@@ -19,18 +21,29 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            var showControls by remember { mutableStateOf(true) }
+            Lab04Theme {
 
-            Column {
+                var screen by remember { mutableStateOf(0) }
 
-                Button(onClick = { showControls = !showControls }) {
-                    Text("Cambiar pantalla")
-                }
+                Column {
 
-                if (showControls) {
-                    ControlsScreen()
-                } else {
-                    ContainersScreen()
+                    Row {
+                        Button(onClick = { screen = 0 }) {
+                            Text("Contenedores")
+                        }
+                        Button(onClick = { screen = 1 }) {
+                            Text("Controles")
+                        }
+                        Button(onClick = { screen = 2 }) {
+                            Text("Avanzado")
+                        }
+                    }
+
+                    when (screen) {
+                        0 -> ContainersScreen()
+                        1 -> ControlsScreen()
+                        2 -> AdvancedScreen()
+                    }
                 }
             }
         }
