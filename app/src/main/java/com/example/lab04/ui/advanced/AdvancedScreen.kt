@@ -62,23 +62,17 @@ fun AdvancedScreen() {
                 ) {
                     DropdownMenuItem(
                         text = { Text("Opción 1") },
-                        onClick = {
-                            selectedOption = "Opción 1"
-                            expanded = false
-                        }
+                        onClick = { selectedOption = "Opción 1"; expanded = false }
                     )
                     DropdownMenuItem(
                         text = { Text("Opción 2") },
-                        onClick = {
-                            selectedOption = "Opción 2"
-                            expanded = false
-                        }
+                        onClick = { selectedOption = "Opción 2"; expanded = false }
                     )
                 }
             }
 
             // 🔹 Divider
-            Divider()
+            HorizontalDivider()
 
             // 🔹 Tabs
             TabRow(selectedTabIndex = selectedTab) {
@@ -90,27 +84,34 @@ fun AdvancedScreen() {
                 }
             }
 
-            // 🔹 Grid
-            Box(Modifier.height(120.dp)) {
-                LazyVerticalGrid(columns = GridCells.Fixed(2)) {
+            // 🔹 Grid (MODIFICADO: Tercer componente con estilo mejorado)
+            Text("Grid de Acciones", style = MaterialTheme.typography.titleMedium)
+            Box(Modifier.height(140.dp)) {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
                     items(4) {
-                        Card(modifier = Modifier.padding(4.dp)) {
-                            Text("Item $it", Modifier.padding(8.dp))
+                        Card(
+                            colors = CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.primaryContainer
+                            ),
+                            modifier = Modifier.height(60.dp)
+                        ) {
+                            Box(contentAlignment = androidx.compose.ui.Alignment.Center, modifier = Modifier.fillMaxSize()) {
+                                Text("Item $it", style = MaterialTheme.typography.bodyMedium)
+                            }
                         }
                     }
                 }
             }
 
-            // 🔹 Snackbar
-            Button(onClick = {
-                scope.launch {
-                    snackbarHostState.showSnackbar("Hola Snackbar")
-                }
-            }) {
+            // 🔹 Resto de componentes (Snackbar, Dialog, etc.)
+            Button(onClick = { scope.launch { snackbarHostState.showSnackbar("Hola Snackbar") } }) {
                 Text("Mostrar Snackbar")
             }
 
-            // 🔹 Dialog
             Button(onClick = { showDialog = true }) {
                 Text("Mostrar Dialog")
             }
@@ -118,25 +119,11 @@ fun AdvancedScreen() {
             if (showDialog) {
                 AlertDialog(
                     onDismissRequest = { showDialog = false },
-                    confirmButton = {
-                        Button(onClick = { showDialog = false }) {
-                            Text("OK")
-                        }
-                    },
+                    confirmButton = { Button(onClick = { showDialog = false }) { Text("OK") } },
                     title = { Text("Dialog") },
                     text = { Text("Esto es un diálogo") }
                 )
             }
-
-            // 🔹 NavigationRail (simulado)
-            Text("NavigationRail (simulación)")
-            Row {
-                Button(onClick = {}) { Text("Item 1") }
-                Button(onClick = {}) { Text("Item 2") }
-            }
-
-            // 🔹 Tooltip (simulado)
-            Text("Tooltip: Mantener presionado (simulado)")
         }
     }
 }
